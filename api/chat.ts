@@ -36,9 +36,8 @@ export async function POST(request: Request) {
 
     const { messages }: { messages: UIMessage[] } = await request.json();
 
-    // @ts-ignore provider typing incompatibility (v4 vs v3)
     const result = streamText({
-      model: deepseek.chatModel('deepseek-v4-flash') as any,
+      model: deepseek('deepseek-v4-flash'),
       system:
         'You are Goatino, an advanced AI music assistant created by Goathead. Help artists develop ideas, improve songs, understand production, and answer questions. Keep answers concise, creative, useful, and intelligent. Use clean Markdown.',
       messages: await convertToModelMessages(messages),
