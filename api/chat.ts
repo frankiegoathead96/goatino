@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { streamText } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 
@@ -19,5 +20,5 @@ export default async function req(request: Request) {
     messages,
   });
 
-  return result.toDataStreamResponse();
+  return result.toTextStreamResponse();
 }
