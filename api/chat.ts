@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { convertToModelMessages, streamText } from 'ai';
-import { createOpenAI } from '@ai-sdk/openai';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
 const apiKey = process.env.DEEPSEEK_API_KEY;
 
@@ -8,7 +8,8 @@ if (!apiKey) {
   throw new Error('Missing DEEPSEEK_API_KEY environment variable');
 }
 
-const deepseek = createOpenAI({
+const deepseek = createOpenAICompatible({
+  name: 'deepseek',
   baseURL: 'https://api.deepseek.com/v1',
   apiKey,
 });
