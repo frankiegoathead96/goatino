@@ -1,7 +1,8 @@
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import type { UIMessage } from 'ai';
 import { Plus, Mic, AudioLines, Zap, Sparkles, Music, Grid } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import type { FormEvent } from 'react';
 
 const getMessageText = (m: UIMessage) => {
@@ -16,7 +17,15 @@ const getMessageText = (m: UIMessage) => {
 };
 
 export function ChatUI() {
-  const { messages, sendMessage, status, error } = useChat();
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: '/api/chat',
+      }),
+    [],
+  );
+
+  const { messages, sendMessage, status, error } = useChat({ transport });
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isGenerating = status === 'streaming';
