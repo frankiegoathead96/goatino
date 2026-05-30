@@ -16,9 +16,10 @@ const getMessageText = (m: UIMessage) => {
 };
 
 export function ChatUI() {
-  const { messages, sendMessage } = useChat();
+  const { messages, sendMessage, status, error } = useChat();
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isGenerating = status === 'streaming';
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -49,6 +50,11 @@ export function ChatUI() {
         </div>
         
         <div className="chat-content">
+          {error && (
+            <div className="chat-error-banner">
+              <strong>Chat error:</strong> {error.message}
+            </div>
+          )}
           {messages.length === 0 && (
             <div className="empty-chat-placeholder">
               <p>What kind of music are you looking for today?</p>
@@ -106,8 +112,8 @@ export function ChatUI() {
               <button type="button" className="input-icon-btn">
                 <Mic size={20} />
               </button>
-              <button type="submit" className="speak-btn">
-                <AudioLines size={16} /> Speak
+              <button type="submit" className="speak-btn" disabled={isGenerating}>
+                <AudioLines size={16} /> {isGenerating ? 'Waiting…' : 'Speak'}
               </button>
             </div>
           </div>
